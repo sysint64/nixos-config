@@ -12,6 +12,17 @@
     thunar
   ];
 
+  imports = [
+    inputs.noctalia.homeModules.default
+  ];
+
+  programs.noctalia-shell = {
+    enable = true;
+    # noctalia-shell ipc call state all > noctalia-settings.json
+    settings = (builtins.fromJSON
+      (builtins.readFile ./noctalia-settings.json)).settings;
+  };
+
   programs.niri.settings = {
     spawn-at-startup = [
       { command = [ "noctalia-shell" ]; }
@@ -26,7 +37,7 @@
       window-close.enable = false;
       window-movement.enable = false;
       window-resize.enable = false;
-      horizontal-view-movement.enable = false;
+      horizontal-view-movement.enable = true;
     };
 
     input = {
@@ -43,7 +54,7 @@
       border = {
         enable = true;
         width = 2;
-        active.color = "#518f62";
+        active.color = "#f2cb3f";
         inactive.color = "#505050";
       };
       preset-column-widths = [

@@ -109,6 +109,7 @@
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.extraSpecialArgs = { inherit inputs; };
+  home-manager.backupFileExtension = "backup";
   home-manager.users.andrei = import ../../home/andrei.nix;
 
   nixpkgs.config.allowUnfree = true;
