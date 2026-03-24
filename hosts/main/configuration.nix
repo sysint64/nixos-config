@@ -1,12 +1,8 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, inputs, ... }:
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
       ./hardware-configuration.nix
     ];
 
@@ -31,7 +27,7 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "main";
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -41,10 +37,8 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
-  # Set your time zone.
   time.timeZone = "Europe/Helsinki";
 
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
@@ -57,19 +51,6 @@
     LC_PAPER = "fi_FI.UTF-8";
     LC_TELEPHONE = "fi_FI.UTF-8";
     LC_TIME = "fi_FI.UTF-8";
-  };
-
-  # Enable the X11 windowing system.
-  # services.xserver.enable = false;
-
-  # Enable the GNOME Desktop Environment.
-  # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
   };
 
   # Enable CUPS to print documents.
@@ -103,10 +84,6 @@
     };
   };
 
-  services.input-remapper = {
-    enable = true;
-  };
-
   fonts.packages = with pkgs; [
     font-awesome
     fantasque-sans-mono
@@ -114,9 +91,6 @@
     noto-fonts
     noto-fonts-color-emoji
   ];
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.andrei = {
@@ -134,49 +108,27 @@
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
-  # home-manager.backupFileExtension = "backup";
   home-manager.extraSpecialArgs = { inherit inputs; };
-  home-manager.users.andrei = import ./home.nix;
+  home-manager.users.andrei = import ../../home/andrei.nix;
 
-  # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
     git
-    ghostty
-    fuzzel
-    # waybar
-    xwayland-satellite
-    mako
-    wl-clipboard
-    swaybg
-    polkit_gnome
-    emacs
-    btop
-    htop
-    ripdrag
-    yazi
-    thunar
     tree
-    sqlite
     gcc
     python3
-    input-remapper
-    telegram-desktop
-    rofi
-    speedcrunch
-    stretchly
-    android-studio
-    jdk17
-    unzip
-    xz
-    zip
-    libGLU
-    libGL
+    btop
+    htop
+    # android-studio
+    # jdk17
+    # unzip
+    # xz
+    # zip
+    # libGLU
+    # libGL
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -204,5 +156,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.11"; # Did you read the comment?
+  system.stateVersion = "25.11";
 }

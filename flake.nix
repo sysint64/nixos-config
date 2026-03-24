@@ -32,14 +32,13 @@
   };
 
   outputs = inputs@{ self, nixpkgs, home-manager, ... }: {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.main = nixpkgs.lib.nixosSystem {
       specialArgs = { inherit inputs; };
       modules = [
         inputs.niri.nixosModules.niri
         home-manager.nixosModules.home-manager
-        ./configuration.nix
-        ./hardware-configuration.nix
-        ./noctalia.nix
+        ./hosts/main/configuration.nix
+        ./hosts/main/hardware-configuration.nix
       ];
     };
   };
