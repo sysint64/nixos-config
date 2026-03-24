@@ -66,12 +66,24 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    wireplumber.enable = true;
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
+
+    wireplumber.extraConfig."11-bluetooth-policy" = {
+      "wireplumber.settings" = {
+        "bluetooth.autoswitch-to-headset-profile" = false;
+      };
+      "monitor.bluez.properties" = {
+        # LDAC doesn't work :(
+        # "bluez5.codecs" = [ "ldac" "aac" "sbc" ];
+        "bluez5.codecs" = [ "aac" "sbc" ];
+      };
+    };
   };
 
   services.greetd = {
@@ -123,6 +135,8 @@
     python3
     btop
     htop
+    bluez
+    bluez-tools
     # android-studio
     # jdk17
     # unzip
