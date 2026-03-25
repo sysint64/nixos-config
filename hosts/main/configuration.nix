@@ -12,6 +12,7 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   hardware.amdgpu.initrd.enable = true;
+  hardware.cpu.amd.updateMicrocode = true;
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
@@ -107,7 +108,7 @@
   users.users.andrei = {
     isNormalUser = true;
     description = "Andrei";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "kvm" ];
     packages = with pkgs; [
     #  thunderbird
     ];
@@ -116,6 +117,35 @@
   # Install firefox.
   programs.firefox.enable = true;
   programs.niri.enable = true;
+  programs.dconf.enable = true;
+  programs.zsh.enable = true;
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+  };
+
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc.lib
+    zlib
+    libGL
+    libx11
+    libxcursor
+    libxrandr
+    libxi
+    gtk3
+    glib
+    pango
+    cairo
+    atk
+    gdk-pixbuf
+    fontconfig
+    freetype
+    harfbuzz
+  ];
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
@@ -123,7 +153,10 @@
   home-manager.backupFileExtension = "backup";
   home-manager.users.andrei = import ../../home/andrei.nix;
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    android_sdk.accept_license = true;
+  };
 
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
@@ -136,14 +169,14 @@
     htop
     bluez
     bluez-tools
-    # android-studio
-    # jdk17
-    # unzip
-    # xz
-    # zip
-    # libGLU
-    # libGL
+    jdk17
   ];
+
+  environment.variables = {
+    ANDROID_HOME = "$HOME/Android/Sdk";
+    ANDROID_SDK_ROOT = "$HOME/Android/Sdk";
+    JAVA_HOME = "${pkgs.jdk17}/lib/openjdk";
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

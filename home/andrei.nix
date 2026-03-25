@@ -4,6 +4,7 @@
   imports = [
     ./modules/emacs.nix
     ./modules/niri.nix
+    ./modules/flutter.nix
   ];
 
   home.stateVersion = "25.11";
@@ -21,6 +22,7 @@
 
   home.packages = with pkgs; [
     telegram-desktop
+    discord
     speedcrunch
     stretchly
     yazi
