@@ -80,8 +80,7 @@
       };
       "monitor.bluez.properties" = {
         # LDAC doesn't work :(
-        # "bluez5.codecs" = [ "ldac" "aac" "sbc" ];
-        "bluez5.codecs" = [ "aac" "sbc" ];
+        "bluez5.codecs" = [ "aptx_hd" "aptx" "aac" "sbc" ];
       };
     };
   };
