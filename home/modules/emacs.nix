@@ -1,4 +1,4 @@
-{ pkgs, lib, inputs, ... }:
+{ pkgs, config, lib, inputs, ... }:
 let
   treesitGrammars = pkgs.emacsPackages.treesit-grammars.with-all-grammars;
 in
@@ -11,12 +11,18 @@ in
     ".emacs.d/vendor".source = "${inputs.emacs-config}/vendor";
     ".emacs.d/early-init.el".text = ''
       (setq treesit-extra-load-path '("${treesitGrammars}/lib"))
+      (setq org-roam-directory (file-truename "/mnt/storage/knowledge/org-roam"))
     '';
+    ".emacs.d/after-init.el".text = ''
+      (setq org-agenda-files nil)
+      (add-to-list 'org-agenda-files "/mnt/storage/knowledge/org-roam/journals")
+      (add-to-list 'org-agenda-files "/mnt/storage/knowledge/org-roam/pages")
+    '';
+    ".emacs.d/elpa".source = config.lib.file.mkOutOfStoreSymlink "/mnt/storage/dev/emacs/elpa";
   };
 
   home.activation.emacsInit = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     mkdir -p ~/.emacs.d
-    mkdir -p ~/.org
 
     if [ ! -f ~/.emacs.d/init.el ]; then
       cp ${inputs.emacs-config}/init.sample.el ~/.emacs.d/init.el

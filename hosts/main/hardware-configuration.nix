@@ -24,6 +24,15 @@
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
+  fileSystems."/mnt/storage" = {
+    device = "/dev/disk/by-uuid/1cf1d2e6-cbfa-4cf3-98fa-2d54e26ca0de";
+    fsType = "ext4";
+    options = [
+      "nofail"        # don't block boot if drive is missing
+      "x-gvfs-show"   # show in file managers (Thunar, Nautilus)
+    ];
+  };
+
   swapDevices =
     [ { device = "/dev/disk/by-uuid/554060d2-2e2d-4318-a689-eddf5d7ab4bf"; }
     ];

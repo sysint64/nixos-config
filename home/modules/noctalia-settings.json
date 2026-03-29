@@ -5,14 +5,14 @@
       "barType": "floating",
       "position": "top",
       "monitors": [],
-      "density": "default",
+      "density": "spacious",
       "showOutline": false,
       "showCapsule": true,
       "capsuleOpacity": 1,
       "capsuleColorKey": "none",
       "widgetSpacing": 6,
       "contentPadding": 2,
-      "fontScale": 1,
+      "fontScale": 1.2000000000000002,
       "enableExclusionZoneInset": true,
       "backgroundOpacity": 0.93,
       "useSeparateOpacity": false,
@@ -41,9 +41,9 @@
             "clockColor": "none",
             "customFont": "",
             "formatHorizontal": "HH:mm ddd, MMM dd",
-            "formatVertical": "HH mm - dd MM",
+            "formatVertical": "h -- mm",
             "id": "Clock",
-            "tooltipFormat": "HH:mm ddd, MMM dd",
+            "tooltipFormat": "h:mm AP ddd, MMM dd",
             "useCustomFont": false
           },
           {
@@ -123,7 +123,7 @@
             "blacklist": [],
             "chevronColor": "none",
             "colorizeIcons": false,
-            "drawerEnabled": true,
+            "drawerEnabled": false,
             "hidePassive": false,
             "id": "Tray",
             "pinned": []
@@ -253,7 +253,7 @@
       "panelBackgroundOpacity": 0.84,
       "translucentWidgets": false,
       "panelsAttachedToBar": true,
-      "settingsPanelMode": "attached",
+      "settingsPanelMode": "centered",
       "settingsPanelSideBarCardStyle": false
     },
     "location": {
@@ -321,6 +321,7 @@
       "transitionEdgeSmoothness": 0.05,
       "panelPosition": "follow_bar",
       "hideWallpaperFilenames": false,
+      "useOriginalImages": false,
       "overviewBlur": 0.4,
       "overviewTint": 0.6,
       "useWallhaven": false,
@@ -483,7 +484,6 @@
       "indicatorOpacity": 0.6
     },
     "network": {
-      "wifiEnabled": true,
       "airplaneModeEnabled": false,
       "bluetoothRssiPollingEnabled": false,
       "bluetoothRssiPollIntervalMs": 60000,
@@ -609,7 +609,8 @@
       "manualSunrise": "06:30",
       "manualSunset": "18:30",
       "generationMethod": "tonal-spot",
-      "monitorForColors": ""
+      "monitorForColors": "",
+      "syncGsettings": true
     },
     "templates": {
       "activeTemplates": [],
@@ -671,8 +672,8 @@
     "wallpapers": {},
     "desktopWidgetsEditMode": false,
     "display": {
-      "HDMI-A-1": {
-        "name": "HDMI-A-1",
+      "DP-3": {
+        "name": "DP-3",
         "connected": true,
         "scale": 1.5,
         "width": 2560,
@@ -681,17 +682,17 @@
         "y": 0,
         "physical_width": 600,
         "physical_height": 400,
-        "refresh_rate": 50018,
+        "refresh_rate": 59984,
         "vrr_supported": false,
         "vrr_enabled": false,
         "transform": "Normal"
       }
     },
     "notificationsState": {
-      "lastSeenTs": 1774206899000
+      "lastSeenTs": 1774569796000
     },
     "changelogState": {
-      "lastSeenVersion": "v4.7.1"
+      "lastSeenVersion": "v4.7.2"
     },
     "colorSchemesList": {
       "schemes": [],
