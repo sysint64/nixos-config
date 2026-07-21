@@ -9,23 +9,25 @@
     swaybg
     polkit_gnome
     rofi
-    thunar
   ];
 
   imports = [
     inputs.noctalia.homeModules.default
   ];
 
-  programs.noctalia-shell = {
+  programs.noctalia = {
     enable = true;
+    systemd.enable = true;
     # noctalia-shell ipc call state all > noctalia-settings.json
     settings = (builtins.fromJSON
       (builtins.readFile ./noctalia-settings.json)).settings;
   };
 
   programs.niri.settings = {
+    outputs."DP-3".scale = 1.7;
+    outputs."HDMI-A-1".scale = 1.7;
+
     spawn-at-startup = [
-      { command = [ "noctalia-shell" ]; }
       { command = [ "stretchly" ]; }
     ];
 
@@ -76,7 +78,14 @@
       }
       {
         matches = [
-          { app-id = "^stretchly$"; }
+          { is-floating = true; }
+        ];
+        open-floating = true;
+      }
+      {
+        matches = [
+          { app-id = "^clew-example$"; }
+          { app-id = "^limur-example$"; }
         ];
         open-floating = true;
       }
@@ -84,7 +93,7 @@
 
     binds = {
       "Mod+T".action.spawn = "ghostty";
-      "Mod+D".action.spawn = ["rofi" "-show" "drun"];
+      "Mod+D".action.spawn = ["noctalia" "msg" "panel-toggle" "launcher"];
       "Mod+Tab".action.spawn = ["rofi" "-show" "window"];
       "Mod+E".action.spawn = "emacs";
       "Mod+K".action.spawn = "speedcrunch";

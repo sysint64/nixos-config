@@ -31,7 +31,7 @@ in
   '';
 
   home.packages = with pkgs; [
-    emacs
+    emacs-pgtk
     emacs-all-the-icons-fonts
     cspell
     hack-font

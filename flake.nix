@@ -19,14 +19,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
+    mango = {
+      url = "github:mangowm/mango";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.noctalia-qs.follows = "noctalia-qs";
     };
 
-    noctalia-qs = {
-      url = "github:noctalia-dev/noctalia-qs";
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -36,6 +35,7 @@
       specialArgs = { inherit inputs; };
       modules = [
         inputs.niri.nixosModules.niri
+        inputs.mango.nixosModules.mango
         home-manager.nixosModules.home-manager
         ./hosts/main/configuration.nix
         ./hosts/main/hardware-configuration.nix

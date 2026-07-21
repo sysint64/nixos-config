@@ -26,11 +26,4 @@
     # eglinfo
     mesa-demos
   ];
-
-  home.sessionVariables = {
-    # Android Studio manages the SDK at this mutable path
-    ANDROID_HOME = "$HOME/Android/Sdk";
-    ANDROID_SDK_ROOT = "$HOME/Android/Sdk";
-    JAVA_HOME = "${pkgs.jdk17.home}";
-  };
 }
