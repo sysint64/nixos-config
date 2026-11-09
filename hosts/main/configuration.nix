@@ -49,7 +49,7 @@
     settings = {
       server = {
         port = 8888;
-        bind_address = "127.0.0.1";
+        bind_address = "0.0.0.0";
         secret_key = "c7b9e2f9-13fc-49e2-a58f-8968831cf3e7";
       };
       search.formats = [ "html" "json" ];
@@ -202,7 +202,10 @@
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.extraSpecialArgs = { inherit inputs; };
-  home-manager.backupFileExtension = "backup";
+  # "bak" instead of "backup": old "<file>.backup" leftovers used to abort
+  # activation ("would be clobbered by backing up"), leaving the user env
+  # stale (2026-11: this silently kept pinning the old noctalia unit).
+  home-manager.backupFileExtension = "bak";
   home-manager.users.andrei = import ../../home/andrei.nix;
 
   services.ollama = {
@@ -256,12 +259,25 @@
     android_sdk.accept_license = true;
   };
 
+  # niri-flake's niri-stable still requires libdisplay-info 0.2.0, but nixpkgs
+  # removed the `libdisplay-info_0_2` alias (2026-08-04). Reintroduce it from the
+  # older nixpkgs that niri-flake already pins as `nixpkgs-stable`.
+  nixpkgs.overlays = [
+    (final: prev: {
+      libdisplay-info_0_2 =
+        inputs.niri.inputs.nixpkgs-stable.legacyPackages.${prev.stdenv.hostPlatform.system}.libdisplay-info_0_2;
+    })
+  ];
+
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
     git
     tree
     gcc
+    # DS4 / DwarfStar, prebuilt with the ROCm backend for Strix Halo (gfx1151).
+    # Provides ds4, ds4-server, ds4-bench, ds4-eval, ds4-agent.
+    # inputs.ds4.packages.${pkgs.system}.strix-halo
     python3
     btop
     htop
@@ -283,7 +299,6 @@
     cargo-binutils
     llvmPackages.bintools
     python3Packages.huggingface-hub
-    llama-cpp
     distrobox
 
     gnumake
@@ -294,6 +309,12 @@
     rocmPackages.hipblas
     rocmPackages.hipblaslt
     rocmPackages.rocwmma
+
+    pi-coding-agent
+    pdfminer
+    (llama-cpp.override { vulkanSupport = true; })
+
+    nodejs
   ];
 
   hardware.logitech.wireless.enable = true;
@@ -330,6 +351,7 @@
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
+  networking.firewall.allowedTCPPorts = [ 8000 8081 8082 8080 8888 4000 ];
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
@@ -342,4 +364,7 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.11";
+
+  services.avahi.enable = true;
+  services.avahi.nssmdns4 = true;
 }
