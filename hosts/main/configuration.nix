@@ -55,6 +55,23 @@
       search.formats = [ "html" "json" ];
     };
   };
+  services.navidrome = {
+    enable = true;
+    openFirewall = true;
+    settings = {
+      MusicFolder = "/mnt/storage/music";
+      PlaylistsPath = "/mnt/storage/music/playlists";
+      EnableSharing = true;
+      Address = "0.0.0.0";
+    };
+    plugins = with pkgs.pkgsCross.wasi32.navidromePlugins; [
+      audiomuseai
+    ];
+  };
+  services.jellyfin = {
+    enable = true;
+    openFirewall = true;
+  };
 
   xdg.portal = {
     enable = true;
@@ -351,7 +368,10 @@
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 8000 8081 8082 8080 8888 4000 ];
+  networking.firewall.allowedTCPPorts = [ 8000 8888 4000 4533 ];
+  networking.firewall.allowedTCPPortRanges = [
+    { from = 8080;  to = 8100; }
+  ];
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
@@ -365,6 +385,14 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.11";
 
-  services.avahi.enable = true;
-  services.avahi.nssmdns4 = true;
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      workstation = true;
+    };
+  };
 }
